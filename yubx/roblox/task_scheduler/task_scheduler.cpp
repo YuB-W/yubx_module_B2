@@ -31,14 +31,15 @@ uintptr_t task_scheduler::get_script_context() {
     return *(uintptr_t*)(children + update::offsets::datamodel::script_context);
 }
 
-inline lua_State* DecodeLuaState(uintptr_t base) {
-    uint32_t low = *reinterpret_cast<uint32_t*>(base + 0x88) - static_cast<uint32_t>(base + 0x88);
-    uint32_t high = *reinterpret_cast<uint32_t*>(base + 0x8C) - static_cast<uint32_t>(base + 0x88);
-    return reinterpret_cast<lua_State*>((static_cast<uint64_t>(high) << 32) | low);
+inline lua_State* DecodeLuaState(uintptr_t globalstate) {
+    size_t offset = 48;
+    uintptr_t GlobalState = globalstate + offset;
+    const uint32_t* ptr = reinterpret_cast<const uint32_t*>(GlobalState + 0x88);
+    const uint32_t DecryptState = static_cast<uint32_t>(GlobalState + 0x88);
+    return reinterpret_cast<lua_State*>((static_cast<uint64_t>(ptr[1] ^ DecryptState) << 32) | (ptr[0] ^ DecryptState));
 }
 
 uintptr_t task_scheduler::get_lua_state() {
     uintptr_t scriptContext = get_script_context();
-    uint64_t a2 = 0, a3 = 0;
-    return (uintptr_t)DecodeLuaState(roblox::GetState(scriptContext + update::offsets::luastate::global_state, &a2, &a3));
+    return (uintptr_t)DecodeLuaState(scriptContext + update::offsets::luastate::global_state);
 }
