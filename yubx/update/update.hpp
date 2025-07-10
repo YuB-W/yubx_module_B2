@@ -1,3 +1,7 @@
+// YuB-X Version: 2.0.8
+// Roblox Version: version-765338e04cf54fde
+// Dump Time:      2025-07-09 22:43:32
+
 #pragma once
 #include <cstdint>
 #include <string>
@@ -13,25 +17,25 @@ namespace update
 {
     namespace roblox
     {
-        const uintptr_t print = xreb(0x156CBB0);
-        const uintptr_t OpcodeLookupTable = xreb(0x510c570);
+        const uintptr_t print = xreb(0x14AD380);
+        const uintptr_t OpcodeLookupTable = xreb(0x5159b40);
 
-        const uintptr_t task_scheduler = xreb(0x63A0968);
-        const uintptr_t fake_datamodel = xreb(0x67D0C18);
-        const uintptr_t luad_throw = xreb(0x26665E0);
-        const uintptr_t task_defer = xreb(0xFE4A60);
+        const uintptr_t task_scheduler = xreb(0x63FA88C);
+        const uintptr_t fake_datamodel = xreb(0x682B928);
+        const uintptr_t luad_throw = xreb(0x2653370);
+        const uintptr_t task_defer = xreb(0xFFA6A0);
     }
 
     namespace lua
     {
-        const uintptr_t luao_nilobject = xreb(0x46F9AC8);
-        const uintptr_t luau_execute = xreb(0x2698E80);
-        const uintptr_t luah_dummynode = xreb(0x46F94E8);
+        const uintptr_t luao_nilobject = xreb(0x4740F38);
+        const uintptr_t luau_execute = xreb(0x2685CE0);
+        const uintptr_t luah_dummynode = xreb(0x4740958);
     }
 
     namespace lua_state
     {
-        const uintptr_t GetGlobalState = xreb(0xDC1FE0);
+        const uintptr_t GetGlobalState = xreb(0xDD2460);
     }
 
     namespace offsets
