@@ -1,8 +1,6 @@
 #pragma once
 
 #include <Windows.h>
-#include "Updating/Offsets.hpp"
-
 #define REBASE(x) x + (uintptr_t)GetModuleHandle(nullptr)
 
 template <typename T>
