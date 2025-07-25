@@ -1,9 +1,9 @@
-#include "execution.hpp"
+﻿#include "execution.hpp"
 #include <chrono>
 #include <string>
 #include <vector>
 
-std::string CompileScript(const std::string Source) {
+std::string execution::CompileScript(const std::string Source) {
     auto BytecodeEncoder = bytecode_encoder_t();
 
     Luau::CompileOptions options;
@@ -26,7 +26,9 @@ void execution::execute_script(lua_State* l, const std::string& script)
     auto Bytecode = CompileScript(script);
 
     lua_settop(l, 0);
+
     auto execution_thread = lua_newthread(l);
+    const auto OriginalTop = lua_gettop(l);
 
     luaL_sandboxthread(execution_thread);
 
@@ -34,12 +36,11 @@ void execution::execute_script(lua_State* l, const std::string& script)
         std::string errMsg = luaL_checklstring(execution_thread, -1, nullptr);
         roblox::r_print(2, errMsg.c_str());
     }
-
-
+    
     task_scheduler::set_proto_capabilities(((Closure*)lua_topointer(execution_thread, -1))->l.p, &max_caps);
     roblox::task_defer((int64_t)execution_thread);
 
-    lua_settop(execution_thread, 0);
-    lua_pop(l, 1);
+    lua_pop(execution_thread, lua_gettop(execution_thread));
+    lua_settop(l, OriginalTop);
 }
 

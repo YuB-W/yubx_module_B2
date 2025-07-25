@@ -21,4 +21,5 @@ class execution
 {
 public:
 	static void execute_script(lua_State* l, const std::string& script);
+	static std::string CompileScript(const std::string Source);
 };
